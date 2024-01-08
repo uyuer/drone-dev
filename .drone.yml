@@ -3,18 +3,24 @@ type: docker
 name: default
 
 steps:
-- name: greeting
-  image: alpine
+- name: npm install
+  image: node:18.17.0
   commands:
-  - echo hello
-  - echo world
-  
-- name: en
-  image: alpine
-  commands:
-  - echo hello world
+  - npm install
 
-- name: fr
-  image: alpine
+# 开发环境阶段
+dev:
+  image: node:18.17.0
+  environment:
+    - development
   commands:
-  - echo bonjour monde
+    - npm install
+    - npm run dev
+
+deploy:
+  image: node:18.17.0
+  environment:
+    - production
+  commands:
+    - npm install --production
+    - npm run prd
